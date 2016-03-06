@@ -1,20 +1,45 @@
 class Tissue
-	def initialize(size)
-		@size = size
-		cells = Array.new(size, size)
+	def initialize(arraySize, view)
+		@arraySize = arraySize
+
+		@cells = Array.new(@arraySize)
+
+		for i in 0..@arraySize
+			@cells[i] = Cell.new(true, view)
+		end
 	end
+
+	def display
+		for i in 0..@arraySize
+			@cells[i].display
+		end
+	end
+
 end
 
 class Cell
+	def initialize(alive, view)
+		@alive = alive
+		@view = view
+	end
 
-end
+	def display()
+		if @alive
+			@view.display("*")
+		else
+			@view.display(".")
+		end
 
-class TissueView
-	def displayTissue(tissue)
-		puts tissue
 	end
 end
 
-tissue = Tissue.new(10)
+class TissueView
+	def display(character)
+		puts character
+	end
+end
+
 tView = TissueView.new()
-tView.displayTissue(tissue)
+tissue = Tissue.new(10, tView)
+tissue.display
+
