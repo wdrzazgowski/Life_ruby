@@ -4,8 +4,9 @@ class Tissue
 
 		@cells = Array.new(@arraySize)
 
+		rndGen = Random.new
 		for i in 0..@arraySize
-			@cells[i] = Cell.new(true, view)
+			@cells[i] = Cell.new(rndGen.rand(2).zero?, view)
 		end
 	end
 
