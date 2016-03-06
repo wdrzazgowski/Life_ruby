@@ -1,21 +1,36 @@
 class Tissue
 	def initialize(arraySize, view)
 		@arraySize = arraySize
-
-		@cells = Array.new(@arraySize)
-
+		@view = view
+		
 		rndGen = Random.new
-		for i in 0..@arraySize
-			@cells[i] = Cell.new(rndGen.rand(2).zero?, view)
-		end
+		@cells = Array.new(@arraySize) { Array.new(@arraySize, Cell.new(rndGen.rand(2).zero?, view)) }
+
+=begin
+		for i in 0..@arraySize do
+			for j in 0..@arraySize do 
+				@cells[j][i] = Cell.new(rndGen.rand(2).zero?, view)
+			end
+		end		
+=end
 	end
 
 	def display
-		for i in 0..@arraySize
-			@cells[i].display
+=begin
+		for i in 0..@arraySize do
+			for j in 0..@arraySize do 
+				@cells[j][i].display
+			end
+			@view.newRow
+		end
+=end
+		@cells.each do |row|
+			row.each do |cell|
+				cell.display
+			end
+			@view.newRow
 		end
 	end
-
 end
 
 class Cell
@@ -36,7 +51,11 @@ end
 
 class TissueView
 	def display(character)
-		puts character
+		print character
+	end
+
+	def newRow
+		print "\n"
 	end
 end
 
