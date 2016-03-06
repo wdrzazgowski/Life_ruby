@@ -1,5 +1,20 @@
-def h(name)
-	puts "Hello #{name}!"
+class Tissue
+	def initialize(size)
+		@size = size
+		cells = Array.new(size, size)
+	end
 end
 
-h("Wojtek")
+class Cell
+
+end
+
+class TissueView
+	def displayTissue(tissue)
+		puts tissue
+	end
+end
+
+tissue = Tissue.new(10)
+tView = TissueView.new()
+tView.displayTissue(tissue)
