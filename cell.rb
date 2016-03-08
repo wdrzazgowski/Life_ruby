@@ -1,15 +1,21 @@
 class Cell
-	def initialize(alive, view)
+	def initialize(alive)
 		@alive = alive
-		@view = view
 	end
 
-	def display()
+	def growOlder(numberOfNeighbours)
 		if @alive
-			@view.display("*")
+			if numberOfNeighbours < 2 or numberOfNeighbours > 3
+				return @alive = false
+			else
+				return alive = true
+			end
 		else
-			@view.display(".")
+			if numberOfNeighbours == 3
+				return @alive = true
+			else
+				return @alive = false
+			end
 		end
-
-	end
+	end 
 end

@@ -3,22 +3,41 @@ class Tissue
 		@arraySize = arraySize
 		@view = view
 		
+		@cells = Array.new(@arraySize) { Array.new(@arraySize) }
+		@nextIterationCells = Array.new(@arraySize) { Array.new(@arraySize) }
+		initializeCells
+				
+	end
+
+	def initializeCells
 		rndGen = Random.new
-		@cells = Array.new(@arraySize) { Array.new(@arraySize, Cell.new(rndGen.rand(2).zero?, view)) }
 
 		for i in 0...@arraySize do
 			for j in 0...@arraySize do 
-				@cells[j][i] = Cell.new(rndGen.rand(2).zero?, view)
+				@cells[j][i] = Cell.new(rndGen.rand(2).zero?)
+				@nextIterationCells[j][i] = @cells[j][i]
 			end
-		end		
+		end
 	end
 
-	def display
-		@cells.each do |row|
-			row.each do |cell|
-				cell.display
+	def rewriteCells
+		for i in 0...@arraySize do
+			for j in 0...@arraySize do 
+				@cells[j][i] = @nextIterationCells[j][i]
 			end
-			@view.newRow
 		end
+	end
+
+	def growOlder
+		for i in 0...@arraySize do
+			for j in 0...@arraySize do 
+				numberOfNeighbours = getNeighboursCount(i,j)
+				@nextIterationCells[j][i].growOlder(numberOfNeighbours)
+			end
+		end
+	end
+
+	def getNeighboursCount(i,j)
+		return 3
 	end
 end
