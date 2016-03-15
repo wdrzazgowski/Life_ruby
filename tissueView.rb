@@ -11,7 +11,7 @@ class TissueView
 		tissue.cells.each do |row|
 			row.each do |cell|
 				if cell.alive
-					print "*"
+					print "@"
 				else
 					print '.'
 				end
