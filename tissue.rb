@@ -1,12 +1,14 @@
 class Tissue
-	def initialize(arraySize, view)
+	def initialize(arraySize)
 		@arraySize = arraySize
-		@view = view
 		
 		@cells = Array.new(@arraySize) { Array.new(@arraySize) }
 		@nextIterationCells = Array.new(@arraySize) { Array.new(@arraySize) }
-		initializeCells
-				
+		initializeCells	
+	end
+
+	def cells
+		@cells
 	end
 
 	def initializeCells
@@ -15,7 +17,7 @@ class Tissue
 		for i in 0...@arraySize do
 			for j in 0...@arraySize do 
 				@cells[j][i] = Cell.new(rndGen.rand(2).zero?)
-				@nextIterationCells[j][i] = @cells[j][i]
+				@nextIterationCells[j][i] = Cell.new(@cells[j][i].alive)
 			end
 		end
 	end
@@ -23,7 +25,7 @@ class Tissue
 	def rewriteCells
 		for i in 0...@arraySize do
 			for j in 0...@arraySize do 
-				@cells[j][i] = @nextIterationCells[j][i]
+				@cells[j][i].alive = @nextIterationCells[j][i].alive
 			end
 		end
 	end
@@ -31,13 +33,73 @@ class Tissue
 	def growOlder
 		for i in 0...@arraySize do
 			for j in 0...@arraySize do 
-				numberOfNeighbours = getNeighboursCount(i,j)
+				numberOfNeighbours = getNeighboursCount(j,i)
 				@nextIterationCells[j][i].growOlder(numberOfNeighbours)
 			end
 		end
+		rewriteCells
 	end
 
-	def getNeighboursCount(i,j)
-		return 3
+	def aliveCell(j,i)
+=begin
+		print j
+		print " "
+		print i
+		print " "
+=end
+		if i < 0 or j < 0 or i >= @arraySize or j >= @arraySize
+#			puts "false"
+			false
+		else
+#			print "true "
+#			puts @cells[j][i].alive
+			@cells[j][i].alive
+		end
+	end
+
+	def getNeighboursCount(j,i)
+		neighboursCount = 0
+		if aliveCell(j-1,i-1)
+			neighboursCount += 1
+		end
+
+		if aliveCell(j-1,i)
+			neighboursCount += 1
+		end
+
+		if aliveCell(j-1,i+1)
+			neighboursCount += 1
+		end
+
+		if aliveCell(j,i-1)
+			neighboursCount += 1
+		end
+
+		if aliveCell(j,i+1)
+			neighboursCount += 1
+		end
+
+		if aliveCell(j+1,i-1)
+			neighboursCount += 1
+		end
+
+		if aliveCell(j+1,i)
+			neighboursCount += 1
+		end
+
+		if aliveCell(j+1,i+1)
+			neighboursCount += 1
+		end
+
+=begin		
+		print i
+		print " "
+		print j 
+		print " " 
+		print neighboursCount
+
+		puts ""
+=end
+		return neighboursCount
 	end
 end

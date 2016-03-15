@@ -7,12 +7,17 @@ class TissueView
 		print "\n"
 	end
 
-	def showTissue(tissue)
-		@cells.each do |row|
+	def show(tissue)
+		tissue.cells.each do |row|
 			row.each do |cell|
-				cell.display
+				if cell.alive
+					print "*"
+				else
+					print '.'
+				end
 			end
-			@view.newRow
+			newRow
 		end
+		newRow
 	end
 end
